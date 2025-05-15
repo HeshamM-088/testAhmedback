@@ -16,12 +16,10 @@ router.route("/").get(check_role,viewAllUsers);
 router
   .route("/:userEmail")
   .get(viewUser)
-  .patch(check_role, updateUser)
-  .delete(check_role, deleteUser);
 
- router.route("/update").put(check_role, updateUser);
+ router.route("/update/:userEmail").put(check_role, updateUser);
 
- router.route("/delete").put(check_role, deleteUser);
+ router.route("/delete/:userEmail").delete(check_role, deleteUser);
 
  router.route("/signup").post(signup);
 
