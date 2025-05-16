@@ -45,7 +45,7 @@ const add_product = async (req, res) => {
     });
   }
 
-  const newProduct = await productSchema.create({
+  const newProduct = await  productSchema({
     title,
     price,
     description,
@@ -56,6 +56,7 @@ const add_product = async (req, res) => {
       count: rating?.count || 0,
     },
   });
+  await product.save();
 
   return res.status(201).json({
     status: 201,
