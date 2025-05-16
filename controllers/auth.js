@@ -22,7 +22,7 @@ const signup = async (req, res) => {
 
   const encryptedPassword = await bcrypt.hash(password, 10);
 
-  const user = await userSchema({
+  const user = await  userSchema({
     name,
     email,
     password: encryptedPassword,
