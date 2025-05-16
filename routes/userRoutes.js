@@ -14,12 +14,12 @@ const router = express.Router();
 router.route("/").get(check_role,viewAllUsers);
 
 router
-  .route("/:userEmail")
+  .route("/:userId")
   .get(viewUser)
 
- router.route("/update/:userEmail").put(check_role, updateUser);
+ router.route("/update/:userId").put(check_role, updateUser);
 
- router.route("/delete/:userEmail").delete(check_role, deleteUser);
+ router.route("/delete/:userId").delete(check_role, deleteUser);
 
  router.route("/signup").post(signup);
 
