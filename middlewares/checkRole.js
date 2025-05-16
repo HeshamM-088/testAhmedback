@@ -1,7 +1,9 @@
 const check_role = async (req, res, next) => {
-  const token = req.headers["authorization"] || req.headers["Authorization"];
-  const role = token.split(" ")[1];
-  if (role == "admin") {
+  const token =
+    req.headers["authorization"].split(" ")[1] ||
+    req.headers["Authorization"].split(" ")[1];
+ // const role = token;
+  if (token) {
     return next();
   }
   return res.status(401).json({

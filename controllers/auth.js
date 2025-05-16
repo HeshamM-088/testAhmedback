@@ -1,5 +1,5 @@
-// const bcrypt = require("bcrypt");
-// const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const userSchema = require("../models/userModel");
 
 const signup = async (req, res) => {
@@ -22,7 +22,7 @@ const signup = async (req, res) => {
 
   const encryptedPassword = await bcrypt.hash(password, 10);
 
-  const user = await userSchema({
+  const user = await  userSchema({
     name,
     email,
     password: encryptedPassword,
@@ -48,35 +48,41 @@ const login = async (req, res) => {
   if (!checkLoggedUser) {
     return res.status(401).json({
       status: 401,
-      message: "invalid email",
+      message: "invalid email or password", 
     });
   }
-  const checkPassword = await bcrypt.compare(
-    password,
-    checkLoggedUser.password
-  );
-  if (!checkPassword) {
-    return res.status(401).json({
-      status: 401,
-      message: "invalid password",
+
+  
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      checkLoggedUser.password
+    );
+    // console.log(isPasswordValid);
+    
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        status: 401,
+        message: "invalid email or password",
+      });
+    }
+
+    const token = jwt.sign(
+      {
+        email,
+        name: checkLoggedUser.name,
+        role: checkLoggedUser.role,
+        _id: checkLoggedUser._id,
+      },
+      process.env.SECRET_KEY
+    );
+
+    console.log(token);
+
+    return res.status(201).json({
+      status: 201,
+      data: { token, message: "login successful" },
     });
-  }
-  const token = jwt.sign(
-    {
-      email,
-      name: checkLoggedUser.name,
-      role: checkLoggedUser.role,
-      _id: checkLoggedUser._id,
-    },
-    process.env.SECRET_KEY
-  );
-
-  console.log(token);
-
-  return res.status(201).json({
-    status: 201,
-    data: { token, message: "login successful" },
-  });
+  
 };
 
 module.exports = {

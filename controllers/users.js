@@ -1,13 +1,10 @@
 const User = require("../models/userModel");
 
 const updateUser = async (req, res) => {
-  const { userEmail } = req.params;
+  const { userId } = req.params;
   const updateData = { ...req.body };
 
-  const updatedUser = await User.findOneAndUpdate(
-    { email: userEmail },
-    updateData
-  );
+  const updatedUser = await User.findByIdAndUpdate( userId , updateData);
 
   if (!updatedUser) {
     return res.status(404).json({
@@ -23,9 +20,9 @@ const updateUser = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-  const { userEmail } = req.params;
+  const { userId } = req.params;
 
-  const deletedUser = await User.findOneAndDelete({ email: userEmail });
+  const deletedUser = await User.findByIdAndDelete( userId );
 
   if (!deletedUser) {
     return res.status(404).json({
@@ -42,9 +39,9 @@ const deleteUser = async (req, res) => {
 };
 
 const viewUser = async (req, res) => {
-  const { userEmail } = req.params;
+  const { userId } = req.params;
 
-  const user = await User.findOne({ email: userEmail });
+  const user = await User.findById( userId );
 
   if (!user) {
     return res.status(404).json({
