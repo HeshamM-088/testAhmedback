@@ -56,7 +56,7 @@ const add_product = async (req, res) => {
       count: rating?.count || 0,
     },
   });
-  await product.save();
+  await newProduct.save();
 
   return res.status(201).json({
     status: 201,
