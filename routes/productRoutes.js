@@ -15,7 +15,7 @@ router
   .route("/:productId")
   .get(get_product_by_id)
   .delete(check_role, delete_product)
-  .patch(check_role, uptade_products);
+  .put(check_role, uptade_products);
 router;
 
 module.exports = { products_routes: router };
